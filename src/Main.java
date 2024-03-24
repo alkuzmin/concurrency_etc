@@ -1,6 +1,7 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Thread.sleep;
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -9,7 +10,8 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    private static Integer val = 0;
+    //private static Integer val = 0;
+    private static AtomicInteger val = new AtomicInteger(0);
     public static void main(String[] args) throws InterruptedException {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
@@ -25,8 +27,8 @@ public class Main {
         ExecutorService es = newFixedThreadPool(2);
         for (int i = 0; i < 1000; i++) {
 
-            es.submit(()->{synchronized(Main.class){Main.val++;}});
-            //es.submit(()->{Main.val++;});
+            //es.submit(()->{synchronized(Main.class){Main.val++;}});
+            es.submit(()->{Main.val.getAndIncrement();});
         }
 
         sleep(3000);
