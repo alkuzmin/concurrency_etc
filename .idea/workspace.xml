@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ed86cff-d1f9-4090-8f6b-d3d62c6eccfc" name="Changes" comment="Atomic types effect">
+    <list default="true" id="1ed86cff-d1f9-4090-8f6b-d3d62c6eccfc" name="Changes" comment="HM vs Concurrent HM">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -67,12 +67,32 @@
       <option name="project" value="LOCAL" />
       <updated>1711283931111</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="HM vs Concurrent HM">
+      <option name="closed" value="true" />
+      <created>1711292751123</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1711292751123</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="synchronized effect" />
     <MESSAGE value="Atomic types effect" />
-    <option name="LAST_COMMIT_MESSAGE" value="Atomic types effect" />
+    <MESSAGE value="HM vs Concurrent HM" />
+    <option name="LAST_COMMIT_MESSAGE" value="HM vs Concurrent HM" />
   </component>
 </project>

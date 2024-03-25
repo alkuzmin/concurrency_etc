@@ -15,7 +15,7 @@ public class Main {
 
     //private static Integer val = 0;
     private static AtomicInteger val = new AtomicInteger(0);
-    private static ConcurrentHashMap<Integer, Integer> hm = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, Integer> hm = new ConcurrentHashMap<>();
     //private static HashMap<Integer, Integer> hm = new HashMap<>();
 
     public static void main(String[] args) throws InterruptedException {
@@ -53,16 +53,16 @@ public class Main {
             Random rnd = new Random();
 
             int count = Main.hm.size();
-            Integer elem = 405+rnd.nextInt(count);
-            Integer elem2 = 405+rnd.nextInt(count);
-            Integer val = rnd.nextInt(Main.hm.get(elem)/50);
+            Integer elem = 405 + rnd.nextInt(count);
+            Integer elem2 = 405 + rnd.nextInt(count);
+            Integer val = rnd.nextInt(Main.hm.get(elem) / 50);
             System.out.printf("Transaction from %d to %d with value %d\n", elem, elem2, val);
 
             es2.submit(() -> {
-                   Main.hm.put(elem, (Main.hm.get(elem) - val));
-                     });
+                Main.hm.put(elem, (Main.hm.get(elem) - val));
+            });
             es2.submit(() -> {
-                 Main.hm.put(elem2, (Main.hm.get(elem2) + val));
+                Main.hm.put(elem2, (Main.hm.get(elem2) + val));
 
             });
         }
@@ -73,13 +73,45 @@ public class Main {
         sum = (float) hm.values().stream().reduce(0, (x, y) -> x + y);
         System.out.println("sum after day=" + sum);
 
-//        ExecutorService es3 = newFixedThreadPool(10);
-//        for (int i = 0; i < 100; i++) {
-//            int finalI = i;
-//            es3.submit(() -> {
-//                System.out.println(finalI);
-//            });
-//
-//        }
+
+        //=============================================================
+        Main.hm.put(405, 500);
+        Main.hm.put(406, 500);
+        Main.hm.put(407, 500);
+        Main.hm.put(408, 500);
+        Main.hm.forEach((k, v) -> System.out.println(k + "  " + v));
+        new Thread(() -> Main.transfer(405, 406, 600)).start();
+        new Thread(() -> {
+            try {
+                sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Main.transfer(408, 405, 300);
+        }).start();
+
+        sleep(5000);
+        Main.hm.forEach((k, v) -> System.out.println(k + "  " + v));
+    }
+
+    private static void transfer(Integer from, Integer to, Integer val) {
+        if (!hm.containsKey(from) || !hm.containsKey(to)) return;
+
+        synchronized (hm) {
+            while (hm.get(from) < val) {
+                try {
+                    hm.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            hm.put(from, hm.get(from) - val);
+
+
+            hm.put(to, hm.get(to) + val);
+            hm.notifyAll();
+        }
     }
 }
+
